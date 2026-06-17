@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EstoquePro - Sistema SaaS de Gestao de Estoque</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            brand: {
+              50: '#eef7ff',
+              100: '#d9edff',
+              200: '#bce0ff',
+              300: '#8ecdff',
+              400: '#59b0ff',
+              500: '#338dff',
+              600: '#1b6cf5',
+              700: '#1457e1',
+              800: '#1746b6',
+              900: '#193d8f',
+              950: '#142757',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .gradient-text {
+      background: linear-gradient(135deg, #1b6cf5 0%, #338dff 50%, #59b0ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .glass {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .hero-bg {
+      background: radial-gradient(ellipse at 30% 0%, rgba(27,108,245,0.12) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, rgba(89,176,255,0.10) 0%, transparent 50%),
+                  radial-gradient(ellipse at 50% 100%, rgba(20,39,87,0.06) 0%, transparent 60%);
+    }
+    .card-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(27,108,245,0.15);
+    }
+    .module-icon {
+      width: 56px; height: 56px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 16px;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+    .fade-in { animation: fadeIn 0.8s ease-out forwards; opacity: 0; }
+    @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+    .fade-in { transform: translateY(20px); }
+    .stat-card { transition: all 0.3s ease; }
+    .stat-card:hover { transform: scale(1.05); }
+    .pulse-dot { animation: pulse 2s infinite; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.25rem !important; }
+    }
+  </style>
+</head>
+<body class="font-sans text-gray-900 antialiased">
+
+  <!-- ========== NAVBAR ========== -->
+  <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 lg:h-20">
+        <a href="#" class="flex items-center gap-2">
+          <div class="w-9 h-9 bg-brand-600 rounded-xl flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+            </svg>
+          </div>
+          <span class="text-xl font-bold text-gray-900">Estoque<span class="text-brand-600">Pro</span></span>
+        </a>
+        <div class="hidden md:flex items-center gap-8">
+          <a href="#modulos" class="text-sm font-medium text-gray-600 hover:text-brand-600 transition">Modulos</a>
+          <a href="#como-funciona" class="text-sm font-medium text-gray-600 hover:text-brand-600 transition">Como Funciona</a>
+          <a href="#precos" class="text-sm font-medium text-gray-600 hover:text-brand-600 transition">Precos</a>
+          <a href="#depoimentos" class="text-sm font-medium text-gray-600 hover:text-brand-600 transition">Depoimentos</a>
+          <a href="#faq" class="text-sm font-medium text-gray-600 hover:text-brand-600 transition">FAQ</a>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="#" class="hidden sm:inline-flex text-sm font-medium text-gray-700 hover:text-brand-600 transition">Entrar</a>
+          <a href="#cta" class="inline-flex items-center px-5 py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25">
+            Teste Gratis
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero-bg pt-28 pb-20 lg:pt-40 lg:pb-32 relative overflow-hidden">
+    <div class="absolute top-20 right-0 w-96 h-96 bg-brand-200/20 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 left-10 w-72 h-72 bg-brand-400/10 rounded-full blur-3xl"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div class="max-w-3xl mx-auto text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-brand-50 border border-brand-200 rounded-full text-brand-700 text-sm font-medium mb-6">
+          <span class="w-2 h-2 bg-green-500 rounded-full pulse-dot"></span>
+          +2.400 empresas ja usam
+        </div>
+        <h1 class="hero-title text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight mb-6">
+          Controle total do seu<br>
+          <span class="gradient-text">estoque em nuvem</span>
+        </h1>
+        <p class="text-lg lg:text-xl text-gray-500 leading-relaxed mb-10 max-w-2xl mx-auto">
+          Plataforma completa com 8 modulos integrados para gerenciar produtos, compras, vendas, financeiro e muito mais. Sem instalacao, sem complicacao.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="#cta" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-brand-600 text-white font-semibold rounded-2xl hover:bg-brand-700 transition shadow-xl shadow-brand-600/30 text-base">
+            Comece gratis por 14 dias
+            <svg class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+          </a>
+          <a href="#como-funciona" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-white text-gray-700 font-semibold rounded-2xl border border-gray-200 hover:border-brand-300 hover:text-brand-600 transition text-base">
+            <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Ver demonstracao
+          </a>
+        </div>
+      </div>
+
+      <!-- Dashboard mockup -->
+      <div class="mt-16 lg:mt-20 max-w-5xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-2xl shadow-gray-900/10 border border-gray-100 overflow-hidden">
+          <div class="flex items-center gap-2 px-4 py-3 bg-gray-50 border-b border-gray-100">
+            <div class="w-3 h-3 rounded-full bg-red-400"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+            <div class="w-3 h-3 rounded-full bg-green-400"></div>
+            <span class="ml-3 text-xs text-gray-400">app.estoquepro.com.br/dashboard</span>
+          </div>
+          <div class="p-6 lg:p-8">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+              <div class="stat-card bg-brand-50 rounded-xl p-4">
+                <p class="text-xs font-medium text-brand-600 mb-1">Produtos Ativos</p>
+                <p class="text-2xl font-bold text-brand-900">3.248</p>
+                <p class="text-xs text-green-600 mt-1">+12% este mes</p>
+              </div>
+              <div class="stat-card bg-green-50 rounded-xl p-4">
+                <p class="text-xs font-medium text-green-600 mb-1">Vendas Hoje</p>
+                <p class="text-2xl font-bold text-green-900">R$ 14.7k</p>
+                <p class="text-xs text-green-600 mt-1">+8% vs ontem</p>
+              </div>
+              <div class="stat-card bg-amber-50 rounded-xl p-4">
+                <p class="text-xs font-medium text-amber-600 mb-1">Alertas Estoque</p>
+                <p class="text-2xl font-bold text-amber-900">23</p>
+                <p class="text-xs text-amber-600 mt-1">7 criticos</p>
+              </div>
+              <div class="stat-card bg-purple-50 rounded-xl p-4">
+                <p class="text-xs font-medium text-purple-600 mb-1">Pedidos Pendentes</p>
+                <p class="text-2xl font-bold text-purple-900">47</p>
+                <p class="text-xs text-purple-600 mt-1">12 para hoje</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <div class="lg:col-span-2 bg-gray-50 rounded-xl p-4 h-40 flex items-center justify-center">
+                <div class="w-full h-full flex items-end justify-around gap-2 px-4 pb-2">
+                  <div class="w-8 bg-brand-200 rounded-t" style="height:30%"></div>
+                  <div class="w-8 bg-brand-300 rounded-t" style="height:50%"></div>
+                  <div class="w-8 bg-brand-400 rounded-t" style="height:70%"></div>
+                  <div class="w-8 bg-brand-300 rounded-t" style="height:45%"></div>
+                  <div class="w-8 bg-brand-500 rounded-t" style="height:85%"></div>
+                  <div class="w-8 bg-brand-600 rounded-t" style="height:100%"></div>
+                  <div class="w-8 bg-brand-400 rounded-t" style="height:60%"></div>
+                  <div class="w-8 bg-brand-300 rounded-t" style="height:40%"></div>
+                  <div class="w-8 bg-brand-500 rounded-t" style="height:75%"></div>
+                  <div class="w-8 bg-brand-400 rounded-t" style="height:55%"></div>
+                  <div class="w-8 bg-brand-600 rounded-t" style="height:90%"></div>
+                  <div class="w-8 bg-brand-500 rounded-t" style="height:65%"></div>
+                </div>
+              </div>
+              <div class="bg-gray-50 rounded-xl p-4 h-40">
+                <p class="text-xs font-medium text-gray-500 mb-3">Top Produtos</p>
+                <div class="space-y-2.5">
+                  <div class="flex items-center justify-between"><span class="text-xs text-gray-700">Caixa Kraft 20cm</span><span class="text-xs font-semibold text-brand-600">342 un</span></div>
+                  <div class="flex items-center justify-between"><span class="text-xs text-gray-700">Embalagem PET 500ml</span><span class="text-xs font-semibold text-brand-600">289 un</span></div>
+                  <div class="flex items-center justify-between"><span class="text-xs text-gray-700">Fita Adesiva Transp</span><span class="text-xs font-semibold text-brand-600">256 un</span></div>
+                  <div class="flex items-center justify-between"><span class="text-xs text-gray-700">Saco Plastico 30x40</span><span class="text-xs font-semibold text-brand-600">198 un</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logos -->
+      <div class="mt-16 text-center">
+        <p class="text-sm text-gray-400 font-medium mb-6">Empresas que confiam no EstoquePro</p>
+        <div class="flex flex-wrap items-center justify-center gap-8 lg:gap-14 opacity-40">
+          <span class="text-xl font-bold text-gray-400">MegaStore</span>
+          <span class="text-xl font-bold text-gray-400">TechParts</span>
+          <span class="text-xl font-bold text-gray-400">FoodBR</span>
+          <span class="text-xl font-bold text-gray-400">AutoPecas+</span>
+          <span class="text-xl font-bold text-gray-400">FarmaVida</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 8 MODULOS ========== -->
+  <section id="modulos" class="py-20 lg:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1.5 bg-brand-50 text-brand-700 text-sm font-semibold rounded-full mb-4">8 Modulos Integrados</span>
+        <h2 class="text-3xl lg:text-4xl font-extrabold mb-4">Tudo que voce precisa,<br class="hidden lg:block"> em um so lugar</h2>
+        <p class="text-gray-500 text-lg max-w-2xl mx-auto">Cada modulo foi pensado para resolver um problema real do dia a dia. Todos se conectam entre si automaticamente.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- Modulo 1 -->
+        <div class="card-hover bg-white border border-gray-100 rounded-2xl p-6 hover:border-brand-200">
+          <div class="module-icon bg-brand-50 text-brand-600 mb-4">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+          </div>
+          <h3 class="text-lg font-bold mb-2">Cadastro de Produtos</h3>
+          <p class="text-sm text-gray-500 mb-4">Cadastro completo com SKU, codigo de barras, categorias, variantes (cor, tamanho), fotos e fichas tecnicas.</p>
+          <ul class="space-y-1.5">
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>SKU e EAN automaticos</li>
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Variantes ilimitadas</li>
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Import. planilha CSV/Excel</li>
+          </ul>
+        </div>
+
+        <!-- Modulo 2 -->
+        <div class="card-hover bg-white border border-gray-100 rounded-2xl p-6 hover:border-green-200">
+          <div class="module-icon bg-green-50 text-green-600 mb-4">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          </div>
+          <h3 class="text-lg font-bold mb-2">Controle de Estoque</h3>
+          <p class="text-sm text-gray-500 mb-4">Saldo em tempo real, estoque minimo/maximo, multiplos depositos e rastreio de lote com validade.</p>
+          <ul class="space-y-1.5">
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Multi-deposito</li>
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Alerta estoque baixo</li>
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Rastreio lote/validade</li>
+          </ul>
+        </div>
+
+        <!-- Modulo 3 -->
+        <div class="card-hover bg-white border border-gray-100 rounded-2xl p-6 hover:border-amber-200">
+          <div class="module-icon bg-amber-50 text-amber-600 mb-4">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
+          </div>
+          <h3 class="text-lg font-bold mb-2">Compras e Fornecedores</h3>
+          <p class="text-sm text-gray-500 mb-4">Pedidos de compra, cotacoes, cadastro de fornecedores, historico de precos e recebimento parcial.</p>
+          <ul class="space-y-1.5">
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Cotacao multi-fornecedor</li>
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Historico de precos</li>
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Recebimento parcial</li>
+          </ul>
+        </div>
+
+        <!-- Modulo 4 -->
+        <div class="card-hover bg-white border border-gray-100 rounded-2xl p-6 hover:border-purple-200">
+          <div class="module-icon bg-purple-50 text-purple-600 mb-4">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          </div>
+          <h3 class="text-lg font-bold mb-2">Vendas e Pedidos</h3>
+          <p class="text-sm text-gray-500 mb-4">PDV simplificado, pedidos online, orcamentos, tabela de precos por cliente e condicoes de pagamento.</p>
+          <ul class="space-y-1.5">
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>PDV offline-ready</li>
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Orcamento em 1 clique</li>
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Preco por cliente/grupo</li>
+          </ul>
+        </div>
+
+        <!-- Modulo 5 -->
+        <div class="card-hover bg-white border border-gray-100 rounded-2xl p-6 hover:border-rose-200">
+          <div class="module-icon bg-rose-50 text-rose-600 mb-4">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <h3 class="text-lg font-bold mb-2">Financeiro</h3>
+          <p class="text-sm text-gray-500 mb-4">Contas a pagar e receber, fluxo de caixa, conciliacao bancaria e DRE automatico para visao gerencial.</p>
+          <ul class="space-y-1.5">
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Fluxo de caixa real-time</li>
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Conciliacao bancaria</li>
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>DRE e balancete</li>
+          </ul>
+        </div>
+
+        <!-- Modulo 6 -->
+        <div class="card-hover bg-white border border-gray-100 rounded-2xl p-6 hover:border-cyan-200">
+          <div class="module-icon bg-cyan-50 text-cyan-600 mb-4">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </div>
+          <h3 class="text-lg font-bold mb-2">Fiscal e NF-e</h3>
+          <p class="text-sm text-gray-500 mb-4">Emissao de NF-e, NFC-e e NFS-e integrada. Calculo automatico de ICMS, IPI, PIS/COFINS e CSLL.</p>
+          <ul class="space-y-1.5">
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>NF-e / NFC-e / NFS-e</li>
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Calculo fiscal automatico</li>
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>XML e DANFE automaticos</li>
+          </ul>
+        </div>
+
+        <!-- Modulo 7 -->
+        <div class="card-hover bg-white border border-gray-100 rounded-2xl p-6 hover:border-indigo-200">
+          <div class="module-icon bg-indigo-50 text-indigo-600 mb-4">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          </div>
+          <h3 class="text-lg font-bold mb-2">Relatorios e BI</h3>
+          <p class="text-sm text-gray-500 mb-4">Dashboards interativos, curva ABC, giro de estoque, margem por produto e exportacao para Excel/PDF.</p>
+          <ul class="space-y-1.5">
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Dashboard em tempo real</li>
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Curva ABC e giro</li>
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Export Excel / PDF</li>
+          </ul>
+        </div>
+
+        <!-- Modulo 8 -->
+        <div class="card-hover bg-white border border-gray-100 rounded-2xl p-6 hover:border-teal-200">
+          <div class="module-icon bg-teal-50 text-teal-600 mb-4">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+          <h3 class="text-lg font-bold mb-2">Integracoes e API</h3>
+          <p class="text-sm text-gray-500 mb-4">API REST completa, webhooks, integracoes nativas com marketplaces, ERPs, transportadoras e contabilidade.</p>
+          <ul class="space-y-1.5">
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>API REST documentada</li>
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Mercado Livre, Shopee, VTEX</li>
+            <li class="flex items-start gap-2 text-xs text-gray-600"><svg class="w-4 h-4 text-green-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Webhooks em tempo real</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== COMO FUNCIONA ========== -->
+  <section id="como-funciona" class="py-20 lg:py-28 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1.5 bg-brand-50 text-brand-700 text-sm font-semibold rounded-full mb-4">Simples e Rapido</span>
+        <h2 class="text-3xl lg:text-4xl font-extrabold mb-4">Comece em 3 passos</h2>
+        <p class="text-gray-500 text-lg max-w-xl mx-auto">Sem instalacao, sem contrato. Crie sua conta e comece a usar em menos de 5 minutos.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div class="text-center">
+          <div class="w-16 h-16 bg-brand-600 text-white rounded-2xl flex items-center justify-center text-2xl font-bold mx-auto mb-4">1</div>
+          <h3 class="text-lg font-bold mb-2">Crie sua conta</h3>
+          <p class="text-sm text-gray-500">Cadastro rapido com e-mail ou Google. Sem cartao de credito para o trial de 14 dias.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-16 h-16 bg-brand-600 text-white rounded-2xl flex items-center justify-center text-2xl font-bold mx-auto mb-4">2</div>
+          <h3 class="text-lg font-bold mb-2">Configure seus produtos</h3>
+          <p class="text-sm text-gray-500">Importe sua planilha ou cadastre manualmente. O assistente guia voce em cada etapa.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-16 h-16 bg-brand-600 text-white rounded-2xl flex items-center justify-center text-2xl font-bold mx-auto mb-4">3</div>
+          <h3 class="text-lg font-bold mb-2">Gerencie tudo</h3>
+          <p class="text-sm text-gray-500">Estoque, vendas, financeiro e notas fiscais em um unico painel. Acesse de qualquer lugar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== NUMEROS ========== -->
+  <section class="py-16 bg-brand-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+        <div>
+          <p class="text-3xl lg:text-4xl font-extrabold text-white">2.400+</p>
+          <p class="text-sm text-brand-300 mt-1">Empresas ativas</p>
+        </div>
+        <div>
+          <p class="text-3xl lg:text-4xl font-extrabold text-white">12M+</p>
+          <p class="text-sm text-brand-300 mt-1">Produtos gerenciados</p>
+        </div>
+        <div>
+          <p class="text-3xl lg:text-4xl font-extrabold text-white">99.9%</p>
+          <p class="text-sm text-brand-300 mt-1">Uptime garantido</p>
+        </div>
+        <div>
+          <p class="text-3xl lg:text-4xl font-extrabold text-white">4.8/5</p>
+          <p class="text-sm text-brand-300 mt-1">Nota dos clientes</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PRECOS ========== -->
+  <section id="precos" class="py-20 lg:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1.5 bg-brand-50 text-brand-700 text-sm font-semibold rounded-full mb-4">Precos Transparentes</span>
+        <h2 class="text-3xl lg:text-4xl font-extrabold mb-4">Escolha o plano ideal</h2>
+        <p class="text-gray-500 text-lg">Todos os planos incluem suporte e atualizacoes. Cancele quando quiser.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+
+        <!-- Starter -->
+        <div class="card-hover bg-white border border-gray-200 rounded-2xl p-8">
+          <h3 class="text-lg font-bold mb-1">Starter</h3>
+          <p class="text-sm text-gray-500 mb-4">Para quem esta comecando</p>
+          <div class="mb-6">
+            <span class="text-4xl font-extrabold">R$97</span>
+            <span class="text-gray-400 text-sm">/mes</span>
+          </div>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-center gap-2 text-sm text-gray-600"><svg class="w-5 h-5 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Ate 500 produtos</li>
+            <li class="flex items-center gap-2 text-sm text-gray-600"><svg class="w-5 h-5 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>2 usuarios</li>
+            <li class="flex items-center gap-2 text-sm text-gray-600"><svg class="w-5 h-5 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>4 modulos basicos</li>
+            <li class="flex items-center gap-2 text-sm text-gray-600"><svg class="w-5 h-5 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Suporte por e-mail</li>
+          </ul>
+          <a href="#cta" class="block w-full text-center px-6 py-3 border-2 border-gray-200 text-gray-700 font-semibold rounded-xl hover:border-brand-600 hover:text-brand-600 transition">Comece gratis</a>
+        </div>
+
+        <!-- Pro -->
+        <div class="card-hover bg-brand-600 rounded-2xl p-8 text-white relative shadow-xl shadow-brand-600/30">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-amber-400 text-amber-900 text-xs font-bold rounded-full">MAIS POPULAR</div>
+          <h3 class="text-lg font-bold mb-1">Pro</h3>
+          <p class="text-sm text-brand-200 mb-4">Para empresas em crescimento</p>
+          <div class="mb-6">
+            <span class="text-4xl font-extrabold">R$197</span>
+            <span class="text-brand-200 text-sm">/mes</span>
+          </div>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-center gap-2 text-sm text-brand-100"><svg class="w-5 h-5 text-brand-200 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Ate 5.000 produtos</li>
+            <li class="flex items-center gap-2 text-sm text-brand-100"><svg class="w-5 h-5 text-brand-200 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>10 usuarios</li>
+            <li class="flex items-center gap-2 text-sm text-brand-100"><svg class="w-5 h-5 text-brand-200 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>8 modulos completos</li>
+            <li class="flex items-center gap-2 text-sm text-brand-100"><svg class="w-5 h-5 text-brand-200 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Suporte prioritario</li>
+          </ul>
+          <a href="#cta" class="block w-full text-center px-6 py-3 bg-white text-brand-600 font-semibold rounded-xl hover:bg-brand-50 transition">Comece gratis</a>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="card-hover bg-white border border-gray-200 rounded-2xl p-8">
+          <h3 class="text-lg font-bold mb-1">Enterprise</h3>
+          <p class="text-sm text-gray-500 mb-4">Para operacoes complexas</p>
+          <div class="mb-6">
+            <span class="text-4xl font-extrabold">R$497</span>
+            <span class="text-gray-400 text-sm">/mes</span>
+          </div>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-center gap-2 text-sm text-gray-600"><svg class="w-5 h-5 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Produtos ilimitados</li>
+            <li class="flex items-center gap-2 text-sm text-gray-600"><svg class="w-5 h-5 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Usuarios ilimitados</li>
+            <li class="flex items-center gap-2 text-sm text-gray-600"><svg class="w-5 h-5 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>API + integ. customizadas</li>
+            <li class="flex items-center gap-2 text-sm text-gray-600"><svg class="w-5 h-5 text-green-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Gerente de conta dedicado</li>
+          </ul>
+          <a href="#cta" class="block w-full text-center px-6 py-3 border-2 border-gray-200 text-gray-700 font-semibold rounded-xl hover:border-brand-600 hover:text-brand-600 transition">Fale conosco</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== DEPOIMENTOS ========== -->
+  <section id="depoimentos" class="py-20 lg:py-28 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1.5 bg-brand-50 text-brand-700 text-sm font-semibold rounded-full mb-4">Depoimentos</span>
+        <h2 class="text-3xl lg:text-4xl font-extrabold mb-4">O que nossos clientes dizem</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+          <div class="flex gap-1 mb-4">
+            <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          </div>
+          <p class="text-sm text-gray-600 mb-4">"Reduzi 40% do tempo gasto com controle de estoque. O modulo fiscal sozinho ja paga a assinatura."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-brand-100 rounded-full flex items-center justify-center text-brand-700 font-bold text-sm">RC</div>
+            <div><p class="text-sm font-semibold">Rafael Costa</p><p class="text-xs text-gray-400">Dono - AutoPecas Costa</p></div>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+          <div class="flex gap-1 mb-4">
+            <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          </div>
+          <p class="text-sm text-gray-600 mb-4">"A integracao com marketplace foi game changer. Antes perdia vendas por falta de sincronizacao de estoque."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-700 font-bold text-sm">AM</div>
+            <div><p class="text-sm font-semibold">Ana Martins</p><p class="text-xs text-gray-400">Gerente - Loja Conceito</p></div>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+          <div class="flex gap-1 mb-4">
+            <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-5 h-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          </div>
+          <p class="text-sm text-gray-600 mb-4">"O suporte eh incrivel e a plataforma nunca caiu. Migrei do ERP legado e nao me arrependo."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center text-purple-700 font-bold text-sm">PS</div>
+            <div><p class="text-sm font-semibold">Pedro Santos</p><p class="text-xs text-gray-400">CFO - Distribuidora PS</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FAQ ========== -->
+  <section id="faq" class="py-20 lg:py-28 bg-white">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <span class="inline-block px-4 py-1.5 bg-brand-50 text-brand-700 text-sm font-semibold rounded-full mb-4">FAQ</span>
+        <h2 class="text-3xl lg:text-4xl font-extrabold mb-4">Perguntas frequentes</h2>
+      </div>
+      <div class="space-y-4">
+        <details class="group bg-gray-50 rounded-xl">
+          <summary class="flex items-center justify-between cursor-pointer p-5 text-sm font-semibold text-gray-900">
+            Preciso instalar alguma coisa?
+            <svg class="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <p class="px-5 pb-5 text-sm text-gray-500">Nao. O EstoquePro eh 100% na nuvem. Basta um navegador e conexao com a internet. Funciona em desktop, tablet e celular.</p>
+        </details>
+        <details class="group bg-gray-50 rounded-xl">
+          <summary class="flex items-center justify-between cursor-pointer p-5 text-sm font-semibold text-gray-900">
+            Posso migrar meus dados de outro sistema?
+            <svg class="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <p class="px-5 pb-5 text-sm text-gray-500">Sim. Importamos dados via planilha CSV/Excel ou integracao direta com os principais ERPs do mercado. Nossa equipe auxilia na migracao.</p>
+        </details>
+        <details class="group bg-gray-50 rounded-xl">
+          <summary class="flex items-center justify-between cursor-pointer p-5 text-sm font-semibold text-gray-900">
+            O sistema emite nota fiscal?
+            <svg class="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <p class="px-5 pb-5 text-sm text-gray-500">Sim! Emitimos NF-e, NFC-e e NFS-e com calculo automatico de impostos. Tudo integrado com a SEFAZ.</p>
+        </details>
+        <details class="group bg-gray-50 rounded-xl">
+          <summary class="flex items-center justify-between cursor-pointer p-5 text-sm font-semibold text-gray-900">
+            Meus dados estao seguros?
+            <svg class="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <p class="px-5 pb-5 text-sm text-gray-500">Absolutamente. Usamos criptografia AES-256, backups diarios automaticos, servidores AWS no Brasil e somos conformes com a LGPD.</p>
+        </details>
+        <details class="group bg-gray-50 rounded-xl">
+          <summary class="flex items-center justify-between cursor-pointer p-5 text-sm font-semibold text-gray-900">
+            Posso cancelar a qualquer momento?
+            <svg class="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </summary>
+          <p class="px-5 pb-5 text-sm text-gray-500">Sim, sem multa ou fidelidade. Cancele pelo painel a qualquer momento. Seus dados ficam disponiveis para exportacao por 90 dias.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA ========== -->
+  <section id="cta" class="py-20 lg:py-28 bg-brand-950 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-0 left-1/4 w-96 h-96 bg-brand-400 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 right-1/4 w-80 h-80 bg-brand-600 rounded-full blur-3xl"></div>
+    </div>
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+      <h2 class="text-3xl lg:text-4xl font-extrabold text-white mb-4">Pronto para transformar sua gestao de estoque?</h2>
+      <p class="text-lg text-brand-300 mb-8 max-w-xl mx-auto">Comece gratis por 14 dias. Sem cartao de credito, sem compromisso. Configure em 5 minutos.</p>
+      <form class="flex flex-col sm:flex-row items-center gap-3 max-w-md mx-auto mb-6">
+        <input type="email" placeholder="Seu melhor e-mail" class="w-full px-5 py-3.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-brand-300 focus:outline-none focus:ring-2 focus:ring-brand-400 text-sm" />
+        <button type="submit" class="w-full sm:w-auto px-8 py-3.5 bg-white text-brand-700 font-semibold rounded-xl hover:bg-brand-50 transition whitespace-nowrap text-sm">Criar conta gratis</button>
+      </form>
+      <p class="text-xs text-brand-400">14 dias gratis &middot; Sem cartao &middot; Cancele quando quiser</p>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="bg-gray-950 text-gray-400 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center">
+              <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+            </div>
+            <span class="text-lg font-bold text-white">Estoque<span class="text-brand-400">Pro</span></span>
+          </div>
+          <p class="text-sm">Gestao de estoque inteligente para empresas que querem crescer.</p>
+        </div>
+        <div>
+          <h4 class="text-sm font-semibold text-white mb-3">Produto</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#modulos" class="hover:text-white transition">Modulos</a></li>
+            <li><a href="#precos" class="hover:text-white transition">Precos</a></li>
+            <li><a href="#" class="hover:text-white transition">Integracoes</a></li>
+            <li><a href="#" class="hover:text-white transition">API Docs</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-sm font-semibold text-white mb-3">Empresa</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="hover:text-white transition">Sobre nos</a></li>
+            <li><a href="#" class="hover:text-white transition">Blog</a></li>
+            <li><a href="#" class="hover:text-white transition">Carreiras</a></li>
+            <li><a href="#" class="hover:text-white transition">Contato</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-sm font-semibold text-white mb-3">Legal</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="hover:text-white transition">Termos de uso</a></li>
+            <li><a href="#" class="hover:text-white transition">Privacidade</a></li>
+            <li><a href="#" class="hover:text-white transition">LGPD</a></li>
+            <li><a href="#" class="hover:text-white transition">SLA</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="text-sm">&copy; 2026 EstoquePro. Todos os direitos reservados.</p>
+        <div class="flex gap-4">
+          <a href="#" class="hover:text-white transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></a>
+          <a href="#" class="hover:text-white transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+          <a href="#" class="hover:text-white transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('glass', 'border-b', 'border-gray-200/50', 'shadow-sm');
+      } else {
+        navbar.classList.remove('glass', 'border-b', 'border-gray-200/50', 'shadow-sm');
+      }
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Intersection Observer for fade-in animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in');
+          entry.target.style.animationDelay = entry.target.dataset.delay || '0s';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.card-hover').forEach((el, i) => {
+      el.dataset.delay = `${i * 0.1}s`;
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
