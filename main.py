@@ -1,8 +1,18 @@
 from fastapi import FastAPI, Query
+from fastapi.responses import FileResponse
 import requests
 
 app = FastAPI()
 
+
+@app.get('/')
+def landing_page():
+    '''
+
+    Serve a landing page (vitrine de cardápios) da aplicação O Sabor.
+
+    '''
+    return FileResponse('index.html')
 
 @app.get('/api/hello')
 def hello_world():
